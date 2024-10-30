@@ -37,4 +37,21 @@ const fetchMyIP = function(callback) {
     callback(null, ip);
   });
 };
-module.exports = { fetchMyIP };
+
+const fetchCoordsByIP = function(ip, callback) {
+  needle.get(`http://ipwho.is/${ip}?format=json`, (error, response, body) => {
+    if (error) return callback(error, null);
+
+    if (response.statusCode !== 200) {
+      callback(Error(`Status Code ${response.statusCode} when coords by IP: ${body}`), null);
+      return;
+    }
+    const bodyObj = JSON.parse(body);
+   // const latitude = bodyObj.latitude;
+   // const longitude = bodyObj.longitude;
+    let coords = {latitude: bodyObj.latitude , longitude: bodyObj.longitude};
+    callback(null, coords);
+  }); 
+};
+
+module.exports = { fetchMyIP, fetchCoordsByIP };
