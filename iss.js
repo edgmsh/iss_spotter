@@ -39,11 +39,11 @@ const fetchMyIP = function(callback) {
 };
 
 const fetchCoordsByIP = function(ip, callback) {
-  needle.get(`http://ipwho.is/${ip}?format=json`, (error, response, body) => {
+  needle.get(`http://ipwho.is/${ip}`, (error, response, body) => {
     if (error) return callback(error, null);
 
     if (response.statusCode !== 200) {
-      callback(Error(`Status Code ${response.statusCode} when coords by IP: ${body}`), null);
+      callback(Error(`Status Code ${response.statusCode} when coords by IP: ${ip}`), null);
       return;
     }
     const bodyObj = JSON.parse(body);
